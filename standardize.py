@@ -1,5 +1,5 @@
 import bs4
-import urllib
+#import urllib
 import urllib3
 import re
 import pandas as pd
