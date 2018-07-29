@@ -35,11 +35,11 @@ def pull_data(url, record_id, api_key):
         offset+=250000
 
         if  not len(pd.DataFrame(pd.read_json(soup.contents[0])).loc['records'].loc['result']):
-            empty = True
+            return df
         else:
             df = df.append(pd.DataFrame(pd.read_json(soup.contents[0]).loc['records'].loc['result']))
         
-    return df.rename(columns={c:camel_to_snake(c) for c in df.columns}, inplace=True)
+    
 
 
 lead_sl = 'c8c72ec0-8331-4ccb-949b-bd284d0054db'
