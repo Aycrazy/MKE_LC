@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import io
 #import geocoder
-import geopandas as gp
+#import geopandas as gp
 import csv 
 import json
 import matplotlib

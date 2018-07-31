@@ -1,2 +1,5 @@
 key.py
 cfs.json
+neighborhood.*
+Pipfile*
+Piplock*
