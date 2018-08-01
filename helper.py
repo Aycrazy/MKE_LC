@@ -50,9 +50,9 @@ cfs_sl = '6b290551-3a5d-4d2b-a95e-2e82c28a0889'
 
 master_prop = '0a2c7f31-cd15-4151-8222-09dd57d5f16d'
 
-crime_df = pull_data(url, crime_sl, api_key)
+#crime_df = pull_data(url, crime_sl, api_key)
 
-lead_df = pull_data(url, lead_sl, api_key)
+#lead_df = pull_data(url, lead_sl, api_key)
 
 #master_df = pull_data(url, master_prop, api_key)
 
