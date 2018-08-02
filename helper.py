@@ -8,7 +8,7 @@ from key import api_key
 url = 'https://data.milwaukee.gov/api/3/action/datastore_search?resource_id='
 
 
-def pull_data(url, record_id, api_key):
+def pull_data(url, record_id, api_key, orient_records = False):
     '''
     pull data from ckan exploiting row limits and offsets
     '''
@@ -34,10 +34,16 @@ def pull_data(url, record_id, api_key):
 
         offset+=250000
 
-        if  not len(pd.DataFrame(pd.read_json(soup.contents[0])).loc['records'].loc['result']):
+        if orient_records:
+            orient_var = 'records'
+        else:
+            orient_var = 'columns'
+
+
+        if  not len(pd.DataFrame(pd.read_json(soup.contents[0],orient=orient_var)).loc['records'].loc['result']):
             return df
         else:
-            df = df.append(pd.DataFrame(pd.read_json(soup.contents[0]).loc['records'].loc['result']))
+            df = df.append(pd.DataFrame(pd.read_json(soup.contents[0],orient=orient_var).loc['records'].loc['result']))
         
     
 
