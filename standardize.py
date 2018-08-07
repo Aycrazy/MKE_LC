@@ -13,6 +13,9 @@ import matplotlib
 import seaborn
 from matplotlib import pyplot as plt
 
+import multiprocessing as mp
+
+import random
 
 def scrape_datasets(main_url):
 	pattern_ev = r'.+(?=/browse)'
@@ -134,15 +137,57 @@ def read(file_name):
 def parse_df_dict(series):
     return pd.DataFrame([[series.values()]], columns = [list(series.keys())])
 
+#crashes things
 def ckan_to_df(soup):
+
+    output = mp.Queue()
     new_dict ={}
+    processes = []
     for d in json.loads(str(soup))['result']['records']:
-        for key in  json.loads(str(soup))['result']['records'][0].keys():
-            if key in new_dict:
-                new_dict[key].append(d[key])
-            else: 
-                new_dict[key]=[d[key]]
+
+        # new_dict[key].extend([mp.Process(target=load_ckan_rows, args=(key,d, new_dict))\
+        #  for key in  json.loads(str(soup))['result']['records'][0].keys()])
+
+
+         processes.extend([mp.Process(target=load_ckan_rows, args=(soup, d, output))])
+        #  for key in  json.loads(str(soup))['result']['records'][0].keys()])
+        #     if key in new_dict:
+        #         new_dict[key].append(d[key])
+        #     else: 
+        #         new_dict[key]=[d[key]]
+
+    for p in processes:
+        p.start()
+
+    for p in processes:
+        p.join()
+
+    results =[] 
+
+    for p in processes:
+        if output.get().keys() in new_dict:
+            new_dict[key].append(d[key])
+        else:
+            new_dict[key]=[d[key]]
+
     return pd.DataFrame(new_dict)
+
+
+def load_ckan_rows(soup, d, output):
+
+    out_dict = {}
+
+    for key in  json.loads(str(soup))['result']['records'][0].keys():
+
+        #if key in new_dict:
+            #new_dict[key].append(d[key])
+
+        #else: 
+            #new_dict[key]=[d[key]]
+        out_dict[key]=[d[key]]
+
+    output.put(out_dict)
+
 
 def make_dfs(file_name):
     permit_dfs = {}
