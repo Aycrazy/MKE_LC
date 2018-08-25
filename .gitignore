@@ -5,3 +5,8 @@ neighborhood**
 Pipfile*
 Piplock*
 *.csv
+**.csv
+**.pkl
+**.zip
+*.zip
+*.pkl
