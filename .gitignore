@@ -10,3 +10,4 @@ Piplock*
 **.zip
 *.zip
 *.pkl
+**.geojson
